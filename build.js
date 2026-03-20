@@ -12,21 +12,18 @@ async function build() {
     console.log('Obfuscating JavaScript...');
     const obfuscatedJs = JavaScriptObfuscator.obfuscate(js, {
         compact: true,
-        controlFlowFlattening: true,
-        controlFlowFlatteningThreshold: 0.75,
-        deadCodeInjection: true,
-        deadCodeInjectionThreshold: 0.4,
+        controlFlowFlattening: false,
+        deadCodeInjection: false,
         identifierNamesGenerator: 'hexadecimal',
         rotateStringArray: true,
-        selfDefending: true,
+        selfDefending: false,
         stringArray: true,
         stringArrayEncoding: ['base64'],
         stringArrayThreshold: 0.75,
-        transformObjectKeys: true,
+        transformObjectKeys: false,
         unicodeEscapeSequence: false,
-        debugProtection: true,
-        debugProtectionInterval: 2000,
-        disableConsoleOutput: true,
+        debugProtection: false,
+        disableConsoleOutput: false,
     }).getObfuscatedCode();
 
     console.log('Minifying CSS...');
