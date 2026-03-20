@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>🎂</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎂</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Noto+Serif+SC:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ==================== LOCK SCREEN ==================== -->
+<div id="lock-screen">
+    <div class="lock-container">
+        <p class="lock-prompt">what's your order? ☕</p>
+        <p class="lock-hint">drag into the cup · or tap to add</p>
+
+        <div class="cup-wrapper">
+            <div class="cup" id="cup">
+                <div class="cup-rim"></div>
+                <div class="cup-body">
+                    <div class="cup-contents" id="cup-contents"></div>
+                    <p class="cup-placeholder" id="cup-placeholder">drop here</p>
+                </div>
+            </div>
+            <button class="order-btn" id="order-btn">Order!</button>
+        </div>
+
+        <div class="emoji-field" id="emoji-field"></div>
+
+        <div class="backup-section">
+            <button class="forgot-link" id="forgot-link">forgot your order?</button>
+            <div class="backup-input-wrap" id="backup-wrap">
+                <input type="password" id="backup-input" placeholder="secret password...">
+                <button id="backup-btn">→</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="lock-message" id="error-msg">hmm, not quite right... try again! 🤔</div>
+    <div class="lock-message success" id="success-msg">perfect order! ✨</div>
+</div>
+
+<!-- ==================== MAIN CONTENT ==================== -->
+<div id="main-content">
+
+    <div class="fairy-lights" id="fairy-lights"></div>
+
+    <svg class="tennis-bg-svg" viewBox="0 0 1440 400" preserveAspectRatio="none">
+        <path class="tennis-arc" d="M-100,300 Q360,50 720,250 Q1080,450 1540,200" />
+        <circle class="tennis-ball" r="6" fill="#F5C518" opacity="0.25">
+            <animateMotion dur="7s" repeatCount="indefinite"
+                path="M-100,300 Q360,50 720,250 Q1080,450 1540,200" />
+        </circle>
+    </svg>
+
+    <header class="hero">
+        <div class="hero-content fade-in">
+            <h1 class="hero-title">Happy Birthday</h1>
+            <h2 class="hero-name">Charlie</h2>
+            <p class="hero-age">22 🎂</p>
+            <p class="hero-date">March 25, 2026</p>
+        </div>
+    </header>
+
+    <article class="letter">
+        <div class="letter-inner">
+
+            <div class="letter-para fade-in">
+                <p>Charlie，</p>
+            </div>
+
+            <div class="letter-para fade-in">
+                <p>其实一直想跟你说，在 SF 能遇到你我觉得超级幸运。一直觉得我们是特别好的朋友。</p>
+            </div>
+
+            <div class="letter-para fade-in">
+                <p>跟你一起的这段时间特别开心，一起去 gym，一起打网球，去 Stardust 你让我点点不一样的然后请我喝了草莓抹茶，你请我吃鳗鱼茶泡饭和牛舌还说"总是你请我不好意思"，后面一起去吃火锅，还在 PA 那个火锅店一起吃了冰淇淋超级好吃的。</p>
+            </div>
+
+            <div class="letter-para fade-in">
+                <p>然后两个人在星巴克坐到十点。</p>
+            </div>
+
+            <div class="letter-para fade-in">
+                <p>还有一起去 SF 见投资人，晚上一起吃烧烤，跟 Intel 吃火锅聊到很晚。连在国内一起尝试新奶茶、去足浴那些都还记得。</p>
+            </div>
+
+            <div class="letter-para fade-in">
+                <p>还有你教我 Cursor，你超级耐心，现在我每天都在 vibe code，超喜欢，这个完全是你带我入门的。你一直都很 active，喜欢看新的东西然后分享给身边的人，能有一个朋友带着我一起去健康生活、推荐好用的科技产品给我，这个对我来说很难得。虽然你推荐的东西我不是每个都用了（但大部分都用了）。</p>
+            </div>
+
+            <div class="letter-para fade-in">
+                <p>而且能遇到一个在产品理念上有共振的人蛮不容易的。我们都觉得好的产品应该是简单的、离本质最近的，不需要堆一堆功能，最小的元素反而能创造最大的价值。一起聊 module 怎么设计、playground 怎么做、用户体验该怎么走的那些时候，是我在 Spark 里最兴奋的时刻。</p>
+            </div>
+
+            <div class="letter-para fade-in">
+                <p>还有一个事我一直记着，有次在机场过安检我开了个小玩笑，然后立刻跟你说其实是假的，你非常认真地看着我说"我当然是相信你的啦"。当时觉得，这个人是真的把我当朋友的。也因为这样，我很在意你怎么看我，很想成为一个你可以 rely on 的人。（虽然有时候可能在意过了头）</p>
+            </div>
+
+            <div class="letter-para fade-in">
+                <p>认识你这段时间，能感觉到你成长了很多，不管是做事还是跟人相处，都比刚认识的时候更 solid 了。我觉得我们是那种能互相 push 对方变更好的朋友，一起运动、一起聊产品、一起 build 东西，这种关系对我来说蛮珍贵的。</p>
+            </div>
+
+            <div class="letter-para fade-in">
+                <p>关于之前的事，那天其实银行卡 -4000，钱都在国内，丢了妈妈那张卡才那么 panic，加上那几天过敏很严重整个人状态很差。那些短信的语气其实是我平时表示震惊的方式，就是那种 dude bro 的语气，但我知道放在那个 context 里看起来不是那样，这个是我的问题。你走之前还洗了床单，这些我都看到了。你们搬走以后家里空落落的，说实话挺伤心的。真的很抱歉让你难受，没有早点鼓起勇气来解释是我的不对。虽然解释这个事情很不酷，但我很不希望它 ever 影响我们的友谊。现在我看完了各方面的医生，开始吃过敏药和做脱敏治疗，整个人状态好了不少。</p>
+            </div>
+
+            <div class="letter-para fade-in">
+                <p>特别感谢你一直以来的帮助和陪伴。你让我开始运动、开始 code、开始认真想产品，这些东西每一个都在让我变成更好的人。能有一个朋友是真心在 push 我往前走的，不是客套那种，是真的会带我去 gym、教我新东西、跟我认真聊想法的那种，这个太难得了。</p>
+            </div>
+
+            <div class="letter-para fade-in">
+                <p>我很期待接下来一起继续把事情做好，继续打球，继续一起聊产品，继续一起尝试新东西。还有好多好吃的没一起去吃，好多地方没一起去探索。</p>
+            </div>
+
+            <div class="letter-para fade-in">
+                <p>我花了很长时间去选这个网球拍，应该是你最喜欢的黄黑配色，希望你会喜欢。你教我的 Cursor 我可一直在用，等我 code 写到能帮你 debug 的时候请你吃饭。</p>
+            </div>
+
+            <div class="letter-para fade-in">
+                <p>也祝你和女朋友一切顺顺利利的。希望 22 岁的你一切都越来越好。生日快乐 Charlie。</p>
+            </div>
+
+            <div class="letter-para fade-in signature">
+                <p>Alice</p>
+            </div>
+
+        </div>
+    </article>
+
+    <!-- ==================== PHOTOS ==================== -->
+    <section class="photos-section">
+        <h2 class="section-title fade-in">memories 📸</h2>
+        <div class="photos-grid">
+
+            <div class="polaroid fade-in" style="--rot: -3deg">
+                <div class="polaroid-inner">
+                    <div class="polaroid-front">
+                        <div class="photo-placeholder" style="--g1: #667eea; --g2: #764ba2">
+                            <!-- To use a real photo: replace this div with <img src="photos/gym.jpg" alt=""> -->
+                            <span>🏋️</span>
+                        </div>
+                        <p class="photo-label">一起去 gym 💪</p>
+                    </div>
+                    <div class="polaroid-back">
+                        <p>健康生活的开始</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="polaroid fade-in" style="--rot: 2deg">
+                <div class="polaroid-inner">
+                    <div class="polaroid-front">
+                        <div class="photo-placeholder" style="--g1: #f5af19; --g2: #f12711">
+                            <span>🎾</span>
+                        </div>
+                        <p class="photo-label">一起打网球</p>
+                    </div>
+                    <div class="polaroid-back">
+                        <p>新拍手感怎样？</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="polaroid fade-in" style="--rot: -1.5deg">
+                <div class="polaroid-inner">
+                    <div class="polaroid-front">
+                        <div class="photo-placeholder" style="--g1: #11998e; --g2: #38ef7d">
+                            <span>🍵</span>
+                        </div>
+                        <p class="photo-label">Stardust 草莓抹茶</p>
+                    </div>
+                    <div class="polaroid-back">
+                        <p>你让我点不一样的</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="polaroid fade-in" style="--rot: 3.5deg">
+                <div class="polaroid-inner">
+                    <div class="polaroid-front">
+                        <div class="photo-placeholder" style="--g1: #fc4a1a; --g2: #f7b733">
+                            <span>🍜</span>
+                        </div>
+                        <p class="photo-label">鳗鱼茶泡饭 + 牛舌</p>
+                    </div>
+                    <div class="polaroid-back">
+                        <p>"总是你请我不好意思"</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="polaroid fade-in" style="--rot: -2.5deg">
+                <div class="polaroid-inner">
+                    <div class="polaroid-front">
+                        <div class="photo-placeholder" style="--g1: #eb3349; --g2: #f45c43">
+                            <span>🍲</span>
+                        </div>
+                        <p class="photo-label">一起吃火锅 🍦</p>
+                    </div>
+                    <div class="polaroid-back">
+                        <p>PA 冰淇淋超好吃</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="polaroid fade-in" style="--rot: 1deg">
+                <div class="polaroid-inner">
+                    <div class="polaroid-front">
+                        <div class="photo-placeholder" style="--g1: #1e3c72; --g2: #2a5298">
+                            <span>☕</span>
+                        </div>
+                        <p class="photo-label">星巴克坐到十点</p>
+                    </div>
+                    <div class="polaroid-back">
+                        <p>聊什么都不嫌晚</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="polaroid fade-in" style="--rot: -4deg">
+                <div class="polaroid-inner">
+                    <div class="polaroid-front">
+                        <div class="photo-placeholder" style="--g1: #6441a5; --g2: #2a0845">
+                            <span>💻</span>
+                        </div>
+                        <p class="photo-label">你教我 Cursor</p>
+                    </div>
+                    <div class="polaroid-back">
+                        <p>现在每天 vibe code ✨</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="polaroid fade-in" style="--rot: 2.5deg">
+                <div class="polaroid-inner">
+                    <div class="polaroid-front">
+                        <div class="photo-placeholder" style="--g1: #ee9ca7; --g2: #ffdde1">
+                            <span>🧋</span>
+                        </div>
+                        <p class="photo-label">国内新奶茶 + 足浴</p>
+                    </div>
+                    <div class="polaroid-back">
+                        <p>回国也要一起探索</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ==================== TENNIS RACKET ==================== -->
+    <section class="racket-section fade-in">
+        <div class="racket-content">
+            <svg class="racket-svg" viewBox="0 0 120 260" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="handle-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#1a1a1a"/>
+                        <stop offset="100%" style="stop-color:#2a2a2a"/>
+                    </linearGradient>
+                    <linearGradient id="grip-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:#F5C518"/>
+                        <stop offset="50%" style="stop-color:#FFE066"/>
+                        <stop offset="100%" style="stop-color:#F5C518"/>
+                    </linearGradient>
+                </defs>
+                <!-- Handle -->
+                <rect x="48" y="130" width="24" height="110" rx="6" fill="url(#handle-grad)" stroke="#F5C518" stroke-width="2"/>
+                <!-- Grip wrap -->
+                <rect x="50" y="165" width="20" height="55" rx="3" fill="url(#grip-grad)" opacity="0.9"/>
+                <!-- Grip lines -->
+                <line x1="50" y1="175" x2="70" y2="170" stroke="#c49b0c" stroke-width="1" opacity="0.5"/>
+                <line x1="50" y1="185" x2="70" y2="180" stroke="#c49b0c" stroke-width="1" opacity="0.5"/>
+                <line x1="50" y1="195" x2="70" y2="190" stroke="#c49b0c" stroke-width="1" opacity="0.5"/>
+                <line x1="50" y1="205" x2="70" y2="200" stroke="#c49b0c" stroke-width="1" opacity="0.5"/>
+                <!-- Throat -->
+                <path d="M52,130 Q40,115 38,100" stroke="#F5C518" stroke-width="3" fill="none"/>
+                <path d="M68,130 Q80,115 82,100" stroke="#F5C518" stroke-width="3" fill="none"/>
+                <!-- Head frame -->
+                <ellipse cx="60" cy="58" rx="42" ry="58" fill="none" stroke="#F5C518" stroke-width="4"/>
+                <!-- Strings vertical -->
+                <line x1="40" y1="12" x2="40" y2="104" stroke="#FFE066" stroke-width="0.8" opacity="0.5"/>
+                <line x1="50" y1="5" x2="50" y2="111" stroke="#FFE066" stroke-width="0.8" opacity="0.5"/>
+                <line x1="60" y1="2" x2="60" y2="114" stroke="#FFE066" stroke-width="0.8" opacity="0.5"/>
+                <line x1="70" y1="5" x2="70" y2="111" stroke="#FFE066" stroke-width="0.8" opacity="0.5"/>
+                <line x1="80" y1="12" x2="80" y2="104" stroke="#FFE066" stroke-width="0.8" opacity="0.5"/>
+                <!-- Strings horizontal -->
+                <line x1="22" y1="30" x2="98" y2="30" stroke="#FFE066" stroke-width="0.8" opacity="0.5"/>
+                <line x1="19" y1="45" x2="101" y2="45" stroke="#FFE066" stroke-width="0.8" opacity="0.5"/>
+                <line x1="18" y1="60" x2="102" y2="60" stroke="#FFE066" stroke-width="0.8" opacity="0.5"/>
+                <line x1="19" y1="75" x2="101" y2="75" stroke="#FFE066" stroke-width="0.8" opacity="0.5"/>
+                <line x1="22" y1="90" x2="98" y2="90" stroke="#FFE066" stroke-width="0.8" opacity="0.5"/>
+                <!-- Bumper -->
+                <ellipse cx="60" cy="58" rx="44" ry="60" fill="none" stroke="#1a1a1a" stroke-width="2" opacity="0.3"/>
+            </svg>
+            <div class="racket-text">
+                <p class="racket-line">选了很久的网球拍</p>
+                <p class="racket-line accent">你最喜欢的黄黑配色 🎾</p>
+                <p class="racket-line small">希望你会喜欢</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="site-footer fade-in">
+        <div class="footer-icons">
+            <span>🎂</span>
+            <span class="footer-dot">·</span>
+            <span>🎾</span>
+        </div>
+        <p class="footer-text">keep this between us</p>
+    </footer>
+
+</div>
+
+<!-- Custom cursor (desktop only) -->
+<div class="custom-cursor" id="custom-cursor">🎂</div>
+
+<!-- Confetti container -->
+<div id="confetti-container"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
