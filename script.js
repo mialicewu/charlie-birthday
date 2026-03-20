@@ -1,16 +1,15 @@
 (() => {
     'use strict';
 
-    /* ==================== CONFIG ==================== */
     const EMOJIS = ['🍓', '🍋', '🍵', '🧋', '🍠', '🍫', '🍪', '🫐', '🍊', '🥥', '🍰', '🍜', '🍦', '🧁'];
-    const CORRECT = new Set(['🍠', '🍵']);
-    const BACKUP_PASSWORD = 'charliehappy22birthday!';
+    const _r = new Uint8Array([240,159,141,160,240,159,141,181]);
+    const CORRECT = new Set(Array.from(new TextDecoder().decode(_r)));
+    const _h = 'f7b12dc05d0507eb5a01e394098706025b9126f38982df1d1f98172640d0da10';
     const CONFETTI_EMOJIS = ['🎉', '🎂', '🎾', '🎈', '✨', '🌟', '💛', '🥳'];
     const LIGHT_COLORS = ['#F5C518', '#FFE066', '#ff9f43', '#ff6b6b', '#ee5a24', '#ffeaa7', '#fdcb6e', '#f8c291'];
 
-    /* ==================== DOM ==================== */
-    const $ = (sel) => document.querySelector(sel);
-    const $$ = (sel) => document.querySelectorAll(sel);
+    const $ = s => document.querySelector(s);
+    const $$ = s => document.querySelectorAll(s);
 
     const lockScreen = $('#lock-screen');
     const mainContent = $('#main-content');
@@ -32,10 +31,22 @@
     let cupEmojis = [];
     let dragState = null;
 
-    /* ==================== EMOJI FIELD SETUP ==================== */
+    async function _sha(s) {
+        const d = new TextEncoder().encode(s);
+        const b = await crypto.subtle.digest('SHA-256', d);
+        return Array.from(new Uint8Array(b)).map(x => x.toString(16).padStart(2, '0')).join('');
+    }
+
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('keydown', e => {
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'u' || e.key === 'U')) e.preventDefault();
+        if (e.key === 'F12') e.preventDefault();
+        if ((e.ctrlKey || e.metaKey) && e.shiftKey && ['i','I','j','J','c','C'].includes(e.key)) e.preventDefault();
+    });
+
     function createEmojis() {
         const shuffled = [...EMOJIS].sort(() => Math.random() - 0.5);
-        shuffled.forEach((emoji) => {
+        shuffled.forEach(emoji => {
             const el = document.createElement('div');
             el.className = 'emoji-item';
             el.textContent = emoji;
@@ -45,7 +56,6 @@
         });
     }
 
-    /* ==================== DRAG & DROP ==================== */
     function initDrag(el) {
         let startX, startY, moved, clone;
 
@@ -73,7 +83,7 @@
         el.addEventListener('mousedown', onStart);
         el.addEventListener('touchstart', onStart, { passive: false });
 
-        el.addEventListener('click', (e) => {
+        el.addEventListener('click', e => {
             if (moved) return;
             if (!el.classList.contains('in-cup')) {
                 addToCup(el.dataset.emoji, el);
@@ -95,16 +105,10 @@
 
         const dx = pos.x - dragState.startX;
         const dy = pos.y - dragState.startY;
-        if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
-            dragState.moved = true;
-        }
+        if (Math.abs(dx) > 5 || Math.abs(dy) > 5) dragState.moved = true;
 
         const cupRect = cup.getBoundingClientRect();
-        if (isInside(pos.x, pos.y, cupRect)) {
-            cup.classList.add('hover');
-        } else {
-            cup.classList.remove('hover');
-        }
+        cup.classList.toggle('hover', isInside(pos.x, pos.y, cupRect));
     }
 
     function onDragEnd(e) {
@@ -137,7 +141,6 @@
         return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
     }
 
-    /* ==================== CUP MANAGEMENT ==================== */
     function addToCup(emoji, sourceEl) {
         if (cupEmojis.includes(emoji)) return;
         cupEmojis.push(emoji);
@@ -183,7 +186,6 @@
         });
     }
 
-    /* ==================== ORDER VALIDATION ==================== */
     orderBtn.addEventListener('click', () => {
         const selected = new Set(cupEmojis);
         if (selected.size === CORRECT.size && [...CORRECT].every(e => selected.has(e))) {
@@ -203,16 +205,14 @@
         }, 1500);
     }
 
-    /* ==================== BACKUP PASSWORD ==================== */
     forgotLink.addEventListener('click', () => {
         backupWrap.classList.toggle('visible');
-        if (backupWrap.classList.contains('visible')) {
-            backupInput.focus();
-        }
+        if (backupWrap.classList.contains('visible')) backupInput.focus();
     });
 
-    function checkBackup() {
-        if (backupInput.value.trim() === BACKUP_PASSWORD) {
+    async function checkBackup() {
+        const hash = await _sha(backupInput.value.trim());
+        if (hash === _h) {
             unlock();
         } else {
             backupInput.style.borderColor = '#ff6b6b';
@@ -226,11 +226,10 @@
     }
 
     backupBtn.addEventListener('click', checkBackup);
-    backupInput.addEventListener('keydown', (e) => {
+    backupInput.addEventListener('keydown', e => {
         if (e.key === 'Enter') checkBackup();
     });
 
-    /* ==================== UNLOCK ==================== */
     function unlock() {
         successMsg.classList.add('show');
         cup.style.animation = 'unlockGlow 1s ease';
@@ -251,7 +250,6 @@
         }, 2500);
     }
 
-    /* ==================== CONFETTI ==================== */
     function launchConfetti() {
         for (let i = 0; i < 40; i++) {
             const piece = document.createElement('div');
@@ -263,19 +261,16 @@
             piece.style.setProperty('--spin', (360 + Math.random() * 720) + 'deg');
             confettiContainer.appendChild(piece);
         }
-        setTimeout(() => {
-            confettiContainer.innerHTML = '';
-        }, 5000);
+        setTimeout(() => { confettiContainer.innerHTML = ''; }, 5000);
     }
 
-    /* ==================== MAIN CONTENT INIT ==================== */
     function initMainContent() {
         initFairyLights();
         initFadeIn();
         initCustomCursor();
+        initPolaroids();
     }
 
-    /* ==================== FAIRY LIGHTS ==================== */
     function initFairyLights() {
         const wire = document.createElement('div');
         wire.className = 'fairy-wire';
@@ -297,18 +292,12 @@
         }
     }
 
-    /* ==================== FADE IN ON SCROLL ==================== */
     function initFadeIn() {
-        const observer = new IntersectionObserver((entries) => {
+        const observer = new IntersectionObserver(entries => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
+                if (entry.isIntersecting) entry.target.classList.add('visible');
             });
-        }, {
-            threshold: 0.15,
-            rootMargin: '0px 0px -50px 0px'
-        });
+        }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
 
         $$('#main-content .fade-in').forEach((el, i) => {
             el.style.transitionDelay = (i < 4 ? i * 0.15 : 0) + 's';
@@ -316,11 +305,10 @@
         });
     }
 
-    /* ==================== CUSTOM CURSOR ==================== */
     function initCustomCursor() {
         if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
 
-        mainContent.addEventListener('mousemove', (e) => {
+        mainContent.addEventListener('mousemove', e => {
             customCursor.style.left = e.clientX + 'px';
             customCursor.style.top = e.clientY + 'px';
             customCursor.style.opacity = '1';
@@ -331,6 +319,11 @@
         });
     }
 
-    /* ==================== INIT ==================== */
+    function initPolaroids() {
+        $$('.polaroid').forEach(p => {
+            p.addEventListener('click', () => p.classList.toggle('flipped'));
+        });
+    }
+
     createEmojis();
 })();

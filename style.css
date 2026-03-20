@@ -1,4 +1,3 @@
-/* ==================== VARIABLES ==================== */
 :root {
     --bg-dark: #0a0a0a;
     --bg-card: #151515;
@@ -14,7 +13,6 @@
     --font-hand: 'Caveat', cursive;
 }
 
-/* ==================== RESET & BASE ==================== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html {
@@ -36,7 +34,6 @@ body {
     color: var(--bg-dark);
 }
 
-/* ==================== CUSTOM CURSOR ==================== */
 .custom-cursor {
     position: fixed;
     pointer-events: none;
@@ -54,7 +51,6 @@ body {
     .custom-cursor { display: block; }
 }
 
-/* ==================== LOCK SCREEN ==================== */
 #lock-screen {
     position: fixed;
     inset: 0;
@@ -94,7 +90,6 @@ body {
     margin-bottom: 2rem;
 }
 
-/* Cup */
 .cup-wrapper {
     display: flex;
     flex-direction: column;
@@ -197,7 +192,6 @@ body {
     box-shadow: 0 4px 20px rgba(245,197,24,0.4);
 }
 
-/* Emoji field */
 .emoji-field {
     display: flex;
     flex-wrap: wrap;
@@ -236,7 +230,6 @@ body {
     transform: scale(0);
 }
 
-/* Backup password */
 .backup-section {
     margin-top: 2rem;
 }
@@ -301,7 +294,6 @@ body {
     transform: scale(1.1);
 }
 
-/* Lock messages */
 .lock-message {
     position: fixed;
     bottom: 3rem;
@@ -325,7 +317,6 @@ body {
     transform: translateX(-50%) translateY(0);
 }
 
-/* ==================== MAIN CONTENT ==================== */
 #main-content {
     display: none;
     opacity: 0;
@@ -341,7 +332,6 @@ body {
     opacity: 1;
 }
 
-/* ==================== FAIRY LIGHTS ==================== */
 .fairy-lights {
     position: fixed;
     top: 0;
@@ -372,7 +362,6 @@ body {
     background: rgba(255,255,255,0.06);
 }
 
-/* ==================== TENNIS BG ==================== */
 .tennis-bg-svg {
     position: fixed;
     bottom: 0;
@@ -392,7 +381,6 @@ body {
     animation: dash 20s linear infinite;
 }
 
-/* ==================== HERO ==================== */
 .hero {
     min-height: 100vh;
     display: flex;
@@ -439,7 +427,6 @@ body {
     margin-top: 1rem;
 }
 
-/* ==================== LETTER ==================== */
 .letter {
     position: relative;
     z-index: 1;
@@ -449,10 +436,12 @@ body {
 }
 
 .letter-inner {
-    background: rgba(255,255,255,0.02);
-    border: 1px solid rgba(245,197,24,0.08);
-    border-radius: 16px;
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(245,197,24,0.1);
+    border-radius: 20px;
     padding: clamp(2rem, 5vw, 4rem);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 }
 
 .letter-para {
@@ -480,12 +469,11 @@ body {
     color: var(--yellow);
 }
 
-/* ==================== PHOTOS ==================== */
 .photos-section {
     position: relative;
     z-index: 1;
     padding: 4rem 2rem 6rem;
-    max-width: 900px;
+    max-width: 960px;
     margin: 0 auto;
 }
 
@@ -499,22 +487,23 @@ body {
 
 .photos-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 2.5rem;
     justify-items: center;
 }
 
-/* Polaroid */
 .polaroid {
-    width: 200px;
-    height: 250px;
-    perspective: 800px;
+    width: 210px;
+    height: 265px;
+    perspective: 1000px;
     transform: rotate(var(--rot, 0deg));
-    transition: transform 0.4s;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
 }
 
 .polaroid:hover {
-    transform: rotate(0deg) scale(1.05);
+    transform: rotate(0deg) scale(1.04) translateY(-6px);
     z-index: 10;
 }
 
@@ -522,11 +511,11 @@ body {
     position: relative;
     width: 100%;
     height: 100%;
-    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
     transform-style: preserve-3d;
 }
 
-.polaroid:hover .polaroid-inner {
+.polaroid.flipped .polaroid-inner {
     transform: rotateY(180deg);
 }
 
@@ -534,21 +523,31 @@ body {
     position: absolute;
     inset: 0;
     backface-visibility: hidden;
-    border-radius: 4px;
+    border-radius: 8px;
     overflow: hidden;
 }
 
 .polaroid-front {
-    background: #f5f0e8;
-    padding: 10px 10px 40px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    background: #faf8f5;
+    padding: 12px 12px 44px;
+    box-shadow:
+        0 1px 3px rgba(0,0,0,0.08),
+        0 4px 12px rgba(0,0,0,0.15),
+        0 12px 32px rgba(0,0,0,0.2);
+}
+
+.polaroid:hover .polaroid-front {
+    box-shadow:
+        0 2px 6px rgba(0,0,0,0.1),
+        0 8px 20px rgba(0,0,0,0.18),
+        0 20px 48px rgba(0,0,0,0.25);
 }
 
 .photo-placeholder {
     width: 100%;
     height: 100%;
     background: linear-gradient(135deg, var(--g1), var(--g2));
-    border-radius: 2px;
+    border-radius: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -559,40 +558,44 @@ body {
     width: 100%;
     height: calc(100% - 0px);
     object-fit: cover;
-    border-radius: 2px;
+    border-radius: 4px;
 }
 
 .photo-label {
     position: absolute;
-    bottom: 10px;
+    bottom: 11px;
     left: 0;
     right: 0;
     text-align: center;
     font-family: var(--font-hand);
     font-size: 0.95rem;
-    color: #3a3530;
+    color: #4a4540;
     line-height: 1.3;
+    letter-spacing: 0.01em;
 }
 
 .polaroid-back {
-    background: #f5f0e8;
+    background: #faf8f5;
     transform: rotateY(180deg);
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 1.5rem;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    border-radius: 8px;
+    box-shadow:
+        0 1px 3px rgba(0,0,0,0.08),
+        0 4px 12px rgba(0,0,0,0.15),
+        0 12px 32px rgba(0,0,0,0.2);
 }
 
 .polaroid-back p {
     font-family: var(--font-hand);
     font-size: 1.2rem;
-    color: #3a3530;
+    color: #4a4540;
     text-align: center;
     line-height: 1.6;
 }
 
-/* ==================== RACKET SECTION ==================== */
 .racket-section {
     position: relative;
     z-index: 1;
@@ -635,13 +638,12 @@ body {
     color: var(--text-muted);
 }
 
-/* ==================== FOOTER ==================== */
 .site-footer {
     position: relative;
     z-index: 1;
     text-align: center;
     padding: 4rem 2rem 3rem;
-    border-top: 1px solid rgba(245,197,24,0.08);
+    border-top: 1px solid rgba(245,197,24,0.06);
 }
 
 .footer-icons {
@@ -665,7 +667,6 @@ body {
     letter-spacing: 0.15em;
 }
 
-/* ==================== FADE IN ==================== */
 .fade-in {
     opacity: 0;
     transform: translateY(30px);
@@ -677,7 +678,6 @@ body {
     transform: translateY(0);
 }
 
-/* ==================== CONFETTI ==================== */
 #confetti-container {
     position: fixed;
     inset: 0;
@@ -694,7 +694,6 @@ body {
     animation-delay: var(--fall-delay);
 }
 
-/* ==================== ANIMATIONS ==================== */
 @keyframes twinkle {
     0% { opacity: 0.2; transform: scale(0.7); box-shadow: 0 0 4px var(--color); }
     100% { opacity: 1; transform: scale(1.1); box-shadow: 0 0 12px var(--color); }
@@ -734,7 +733,6 @@ body {
     100% { box-shadow: 0 0 0 rgba(245,197,24,0); }
 }
 
-/* ==================== RESPONSIVE ==================== */
 @media (max-width: 768px) {
     .lock-prompt { font-size: 1.7rem; }
     .lock-hint { font-size: 0.85rem; }
@@ -747,12 +745,12 @@ body {
 
     .photos-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 1.2rem;
+        gap: 1.5rem;
     }
 
     .polaroid {
-        width: 160px;
-        height: 210px;
+        width: 165px;
+        height: 215px;
     }
 
     .letter-inner {
@@ -765,12 +763,12 @@ body {
 @media (max-width: 480px) {
     .photos-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 0.8rem;
+        gap: 1rem;
     }
 
     .polaroid {
-        width: 140px;
-        height: 190px;
+        width: 145px;
+        height: 195px;
     }
 
     .hero-age { font-size: 2rem; }
