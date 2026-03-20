@@ -251,6 +251,24 @@
     function initMainContent() {
         initPolaroidDrag();
         initBgRingScroll();
+        initLetterFadeIn();
+    }
+
+    // ── Letter paragraphs fade in on scroll ──
+
+    function initLetterFadeIn() {
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.2, rootMargin: '0px 0px -40px 0px' });
+
+        $$('.letter-para').forEach((el, i) => {
+            el.style.transitionDelay = (i * 0.06) + 's';
+            observer.observe(el);
+        });
     }
 
     // ── Draggable polaroids (pointer events, like alicewu.me) ──

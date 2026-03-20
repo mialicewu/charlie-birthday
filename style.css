@@ -51,10 +51,10 @@ body::before {
 
 .bg-ring {
     position: fixed;
-    bottom: -100px;
-    right: -100px;
-    width: 400px;
-    height: 400px;
+    bottom: -140px;
+    right: -140px;
+    width: 600px;
+    height: 600px;
     z-index: 0;
     pointer-events: none;
     transition: transform 0.1s ease-out;
@@ -364,7 +364,7 @@ body::before {
     position: relative;
     width: 100%;
     max-width: 900px;
-    height: 340px;
+    height: 520px;
     margin: 0 auto 60px;
     padding: 0 2rem;
     opacity: 0;
@@ -407,6 +407,15 @@ body::before {
     font-size: 2.8rem;
 }
 
+.polaroid-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 2px;
+    pointer-events: none;
+}
+
 .polaroid-label {
     position: absolute;
     bottom: 8px;
@@ -421,13 +430,18 @@ body::before {
     text-overflow: ellipsis;
 }
 
-/* Scattered positions */
-.polaroid:nth-child(1) { width: 155px; height: 200px; left: 2%;  top: 10%; transform: rotate(-4deg); z-index: 2; }
-.polaroid:nth-child(2) { width: 148px; height: 190px; left: 16%; top: 2%;  transform: rotate(3deg);  z-index: 4; }
-.polaroid:nth-child(3) { width: 150px; height: 195px; left: 32%; top: 14%; transform: rotate(-2deg); z-index: 3; }
-.polaroid:nth-child(4) { width: 145px; height: 188px; left: 50%; top: 4%;  transform: rotate(5deg);  z-index: 1; }
-.polaroid:nth-child(5) { width: 152px; height: 192px; left: 66%; top: 12%; transform: rotate(-3deg); z-index: 5; }
-.polaroid:nth-child(6) { width: 148px; height: 196px; left: 80%; top: 0%;  transform: rotate(2deg);  z-index: 6; }
+/* Scattered positions — 11 cards, two loose rows */
+.polaroid:nth-child(1)  { width: 145px; height: 185px; left: 0%;  top: 4%;  transform: rotate(-4deg); z-index: 3; }
+.polaroid:nth-child(2)  { width: 138px; height: 178px; left: 13%; top: 0%;  transform: rotate(3deg);  z-index: 5; }
+.polaroid:nth-child(3)  { width: 142px; height: 182px; left: 26%; top: 8%;  transform: rotate(-2deg); z-index: 2; }
+.polaroid:nth-child(4)  { width: 140px; height: 180px; left: 40%; top: 2%;  transform: rotate(5deg);  z-index: 7; }
+.polaroid:nth-child(5)  { width: 144px; height: 184px; left: 54%; top: 6%;  transform: rotate(-3deg); z-index: 4; }
+.polaroid:nth-child(6)  { width: 136px; height: 176px; left: 68%; top: 0%;  transform: rotate(2deg);  z-index: 6; }
+.polaroid:nth-child(7)  { width: 140px; height: 180px; left: 80%; top: 8%;  transform: rotate(-5deg); z-index: 1; }
+.polaroid:nth-child(8)  { width: 138px; height: 178px; left: 4%;  top: 48%; transform: rotate(4deg);  z-index: 8; }
+.polaroid:nth-child(9)  { width: 142px; height: 182px; left: 22%; top: 52%; transform: rotate(-2deg); z-index: 9; }
+.polaroid:nth-child(10) { width: 140px; height: 180px; left: 42%; top: 46%; transform: rotate(3deg);  z-index: 10; }
+.polaroid:nth-child(11) { width: 144px; height: 184px; left: 62%; top: 50%; transform: rotate(-4deg); z-index: 11; }
 
 /* ==================== LETTER ==================== */
 
@@ -449,7 +463,17 @@ body::before {
     box-shadow: 0 4px 24px rgba(0,0,0,0.03);
 }
 
-.letter-para { margin-bottom: 1.6rem; }
+.letter-para {
+    margin-bottom: 1.6rem;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.letter-para.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
 .letter-para:last-child { margin-bottom: 0; }
 
 .letter-para p {
@@ -482,8 +506,10 @@ body::before {
     gap: 1.5rem;
 }
 
+.racket-section { padding-top: 5rem; }
+
 .racket-svg {
-    width: 100px;
+    width: 140px;
     height: auto;
     filter: drop-shadow(0 4px 16px rgba(245,197,24,0.15));
     animation: float 4s ease-in-out infinite;
@@ -586,21 +612,26 @@ body::before {
     .hero { min-height: 50vh; padding: 4rem 2rem 1rem; }
 
     .cards-area {
-        height: 380px;
-        margin-bottom: 40px;
+        height: 680px;
+        margin-bottom: 30px;
     }
 
-    .polaroid { padding: 5px 5px 22px !important; }
-    .polaroid-inner { height: calc(100% - 14px) !important; }
-    .polaroid-label { font-size: 11px; bottom: 4px; left: 6px; right: 6px; }
-    .photo-placeholder { font-size: 2rem; }
+    .polaroid { padding: 4px 4px 20px !important; }
+    .polaroid-inner { height: calc(100% - 12px) !important; }
+    .polaroid-label { font-size: 10px; bottom: 4px; left: 5px; right: 5px; }
+    .photo-placeholder { font-size: 1.8rem; }
 
-    .polaroid:nth-child(1) { width: 110px !important; height: 145px !important; left: 2% !important;  top: 2% !important;  }
-    .polaroid:nth-child(2) { width: 105px !important; height: 138px !important; left: 32% !important; top: 8% !important;  }
-    .polaroid:nth-child(3) { width: 108px !important; height: 142px !important; left: 60% !important; top: 0% !important;  }
-    .polaroid:nth-child(4) { width: 106px !important; height: 140px !important; left: 5% !important;  top: 42% !important; }
-    .polaroid:nth-child(5) { width: 110px !important; height: 144px !important; left: 35% !important; top: 48% !important; }
-    .polaroid:nth-child(6) { width: 105px !important; height: 138px !important; left: 62% !important; top: 40% !important; }
+    .polaroid:nth-child(1)  { width: 100px !important; height: 130px !important; left: 2% !important;  top: 0% !important; }
+    .polaroid:nth-child(2)  { width: 95px !important;  height: 125px !important; left: 34% !important; top: 4% !important; }
+    .polaroid:nth-child(3)  { width: 98px !important;  height: 128px !important; left: 62% !important; top: 0% !important; }
+    .polaroid:nth-child(4)  { width: 96px !important;  height: 126px !important; left: 5% !important;  top: 22% !important; }
+    .polaroid:nth-child(5)  { width: 100px !important; height: 130px !important; left: 36% !important; top: 26% !important; }
+    .polaroid:nth-child(6)  { width: 94px !important;  height: 124px !important; left: 64% !important; top: 22% !important; }
+    .polaroid:nth-child(7)  { width: 98px !important;  height: 128px !important; left: 3% !important;  top: 44% !important; }
+    .polaroid:nth-child(8)  { width: 96px !important;  height: 126px !important; left: 35% !important; top: 48% !important; }
+    .polaroid:nth-child(9)  { width: 100px !important; height: 130px !important; left: 62% !important; top: 44% !important; }
+    .polaroid:nth-child(10) { width: 98px !important;  height: 128px !important; left: 12% !important; top: 66% !important; }
+    .polaroid:nth-child(11) { width: 96px !important;  height: 126px !important; left: 48% !important; top: 68% !important; }
 
     .letter-inner { padding: 1.5rem; }
     .racket-svg { width: 80px; }
