@@ -5,8 +5,7 @@
     const _r = new Uint8Array([240,159,141,160,240,159,141,181]);
     const CORRECT = new Set(Array.from(new TextDecoder().decode(_r)));
     const _h = 'f7b12dc05d0507eb5a01e394098706025b9126f38982df1d1f98172640d0da10';
-    const CONFETTI_EMOJIS = ['🎉', '🎂', '🎾', '🎈', '✨', '🌟', '💛', '🥳'];
-    const LIGHT_COLORS = ['#F5C518', '#FFE066', '#ff9f43', '#ff6b6b', '#ee5a24', '#ffeaa7', '#fdcb6e', '#f8c291'];
+    const CONFETTI_EMOJIS = ['🎉', '🎂', '🎾', '✨', '🌟', '🥳'];
 
     const $ = s => document.querySelector(s);
     const $$ = s => document.querySelectorAll(s);
@@ -24,8 +23,6 @@
     const backupWrap = $('#backup-wrap');
     const backupInput = $('#backup-input');
     const backupBtn = $('#backup-btn');
-    const customCursor = $('#custom-cursor');
-    const fairyLightsContainer = $('#fairy-lights');
     const confettiContainer = $('#confetti-container');
 
     let cupEmojis = [];
@@ -215,7 +212,7 @@
         if (hash === _h) {
             unlock();
         } else {
-            backupInput.style.borderColor = '#ff6b6b';
+            backupInput.style.borderColor = '#e85d5d';
             backupInput.value = '';
             backupInput.placeholder = 'wrong password...';
             setTimeout(() => {
@@ -251,7 +248,7 @@
     }
 
     function launchConfetti() {
-        for (let i = 0; i < 40; i++) {
+        for (let i = 0; i < 30; i++) {
             const piece = document.createElement('div');
             piece.className = 'confetti-piece';
             piece.textContent = CONFETTI_EMOJIS[Math.floor(Math.random() * CONFETTI_EMOJIS.length)];
@@ -265,31 +262,8 @@
     }
 
     function initMainContent() {
-        initFairyLights();
         initFadeIn();
-        initCustomCursor();
         initPolaroids();
-    }
-
-    function initFairyLights() {
-        const wire = document.createElement('div');
-        wire.className = 'fairy-wire';
-        fairyLightsContainer.appendChild(wire);
-
-        const count = Math.floor(window.innerWidth / 35);
-        for (let i = 0; i < count; i++) {
-            const light = document.createElement('div');
-            light.className = 'fairy-light';
-            const color = LIGHT_COLORS[i % LIGHT_COLORS.length];
-            light.style.setProperty('--color', color);
-            light.style.backgroundColor = color;
-            light.style.left = (i / count * 100) + '%';
-            light.style.setProperty('--dur', (1.5 + Math.random() * 2) + 's');
-            light.style.setProperty('--delay', (Math.random() * 3) + 's');
-            const yOffset = Math.sin(i * 0.4) * 10 + 15;
-            light.style.top = yOffset + 'px';
-            fairyLightsContainer.appendChild(light);
-        }
     }
 
     function initFadeIn() {
@@ -300,22 +274,8 @@
         }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
 
         $$('#main-content .fade-in').forEach((el, i) => {
-            el.style.transitionDelay = (i < 4 ? i * 0.15 : 0) + 's';
+            el.style.transitionDelay = (i < 6 ? i * 0.1 : 0) + 's';
             observer.observe(el);
-        });
-    }
-
-    function initCustomCursor() {
-        if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-
-        mainContent.addEventListener('mousemove', e => {
-            customCursor.style.left = e.clientX + 'px';
-            customCursor.style.top = e.clientY + 'px';
-            customCursor.style.opacity = '1';
-        });
-
-        mainContent.addEventListener('mouseleave', () => {
-            customCursor.style.opacity = '0';
         });
     }
 
