@@ -24,6 +24,7 @@
     const backupInput = $('#backup-input');
     const backupBtn = $('#backup-btn');
     const confettiContainer = $('#confetti-container');
+    const bgRing = $('#bg-ring');
 
     let cupEmojis = [];
     let dragState = null;
@@ -41,6 +42,8 @@
         if ((e.ctrlKey || e.metaKey) && e.shiftKey && ['i','I','j','J','c','C'].includes(e.key)) e.preventDefault();
     });
 
+    // ── Lock screen emoji logic ──
+
     function createEmojis() {
         const shuffled = [...EMOJIS].sort(() => Math.random() - 0.5);
         shuffled.forEach(emoji => {
@@ -49,19 +52,17 @@
             el.textContent = emoji;
             el.dataset.emoji = emoji;
             emojiField.appendChild(el);
-            initDrag(el);
+            initLockDrag(el);
         });
     }
 
-    function initDrag(el) {
-        let startX, startY, moved, clone;
+    function initLockDrag(el) {
+        let clone, moved = false;
 
         function onStart(e) {
             if (el.classList.contains('in-cup')) return;
             e.preventDefault();
             const pos = getPos(e);
-            startX = pos.x;
-            startY = pos.y;
             moved = false;
 
             clone = el.cloneNode(true);
@@ -74,27 +75,25 @@
             document.body.appendChild(clone);
 
             el.style.opacity = '0.3';
-            dragState = { el, clone, startX, startY };
+            dragState = { el, clone, startX: pos.x, startY: pos.y };
         }
 
         el.addEventListener('mousedown', onStart);
         el.addEventListener('touchstart', onStart, { passive: false });
 
-        el.addEventListener('click', e => {
+        el.addEventListener('click', () => {
             if (moved) return;
-            if (!el.classList.contains('in-cup')) {
-                addToCup(el.dataset.emoji, el);
-            }
+            if (!el.classList.contains('in-cup')) addToCup(el.dataset.emoji, el);
         });
     }
 
-    document.addEventListener('mousemove', onDragMove);
-    document.addEventListener('touchmove', onDragMove, { passive: false });
-    document.addEventListener('mouseup', onDragEnd);
-    document.addEventListener('touchend', onDragEnd);
+    document.addEventListener('mousemove', onLockDragMove);
+    document.addEventListener('touchmove', onLockDragMove, { passive: false });
+    document.addEventListener('mouseup', onLockDragEnd);
+    document.addEventListener('touchend', onLockDragEnd);
 
-    function onDragMove(e) {
-        if (!dragState) return;
+    function onLockDragMove(e) {
+        if (!dragState || !dragState.clone) return;
         e.preventDefault();
         const pos = getPos(e);
         dragState.clone.style.left = (pos.x - 24) + 'px';
@@ -108,8 +107,8 @@
         cup.classList.toggle('hover', isInside(pos.x, pos.y, cupRect));
     }
 
-    function onDragEnd(e) {
-        if (!dragState) return;
+    function onLockDragEnd(e) {
+        if (!dragState || !dragState.clone) return;
         const { el, clone } = dragState;
         const pos = getPos(e.changedTouches ? e.changedTouches[0] : e);
         const cupRect = cup.getBoundingClientRect();
@@ -122,10 +121,7 @@
         } else {
             el.style.opacity = '1';
         }
-
-        const wasMoved = dragState.moved;
         dragState = null;
-        if (wasMoved && el._clickHandler) return;
     }
 
     function getPos(e) {
@@ -150,7 +146,6 @@
         span.dataset.emoji = emoji;
         span.addEventListener('click', () => removeFromCup(emoji, sourceEl, span));
         cupContents.appendChild(span);
-
         updateCupUI();
     }
 
@@ -163,13 +158,8 @@
     }
 
     function updateCupUI() {
-        if (cupEmojis.length > 0) {
-            cupPlaceholder.classList.add('hidden');
-            orderBtn.classList.add('active');
-        } else {
-            cupPlaceholder.classList.remove('hidden');
-            orderBtn.classList.remove('active');
-        }
+        cupPlaceholder.classList.toggle('hidden', cupEmojis.length > 0);
+        orderBtn.classList.toggle('active', cupEmojis.length > 0);
     }
 
     function resetCup() {
@@ -223,9 +213,7 @@
     }
 
     backupBtn.addEventListener('click', checkBackup);
-    backupInput.addEventListener('keydown', e => {
-        if (e.key === 'Enter') checkBackup();
-    });
+    backupInput.addEventListener('keydown', e => { if (e.key === 'Enter') checkBackup(); });
 
     function unlock() {
         successMsg.classList.add('show');
@@ -235,16 +223,13 @@
         setTimeout(() => {
             lockScreen.classList.add('unlocked');
             mainContent.classList.add('visible');
-
             requestAnimationFrame(() => {
                 mainContent.classList.add('show');
                 initMainContent();
             });
         }, 1500);
 
-        setTimeout(() => {
-            lockScreen.style.display = 'none';
-        }, 2500);
+        setTimeout(() => { lockScreen.style.display = 'none'; }, 2500);
     }
 
     function launchConfetti() {
@@ -261,27 +246,90 @@
         setTimeout(() => { confettiContainer.innerHTML = ''; }, 5000);
     }
 
+    // ── Main content ──
+
     function initMainContent() {
-        initFadeIn();
-        initPolaroids();
+        initPolaroidDrag();
+        initBgRingScroll();
     }
 
-    function initFadeIn() {
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('visible');
-            });
-        }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+    // ── Draggable polaroids (pointer events, like alicewu.me) ──
 
-        $$('#main-content .fade-in').forEach((el, i) => {
-            el.style.transitionDelay = (i < 6 ? i * 0.1 : 0) + 's';
-            observer.observe(el);
+    function initPolaroidDrag() {
+        let maxZ = 10;
+
+        $$('.polaroid').forEach(card => {
+            let dragging = false, moved = false, startX, startY, origX, origY;
+
+            card.addEventListener('pointerdown', e => {
+                dragging = true;
+                moved = false;
+                card.setPointerCapture(e.pointerId);
+                maxZ++;
+                card.style.zIndex = maxZ;
+                startX = e.clientX;
+                startY = e.clientY;
+                origX = card.offsetLeft;
+                origY = card.offsetTop;
+                card.style.transition = 'box-shadow 0.3s ease';
+                card.style.transform = 'scale(1.06) rotate(0deg)';
+                card.classList.add('dragging');
+                if (navigator.vibrate) navigator.vibrate(8);
+            });
+
+            card.addEventListener('pointermove', e => {
+                if (!dragging) return;
+                const dx = e.clientX - startX;
+                const dy = e.clientY - startY;
+                if (!moved && (Math.abs(dx) > 4 || Math.abs(dy) > 4)) {
+                    moved = true;
+                    card.style.transition = 'none';
+                }
+                if (moved) {
+                    e.preventDefault();
+                    card.style.left = origX + dx + 'px';
+                    card.style.top = origY + dy + 'px';
+                    card.style.transform = 'scale(1.06) rotate(' + Math.max(-8, Math.min(8, dx * 0.04)) + 'deg)';
+                }
+            });
+
+            card.addEventListener('pointerup', () => {
+                if (!dragging) return;
+                dragging = false;
+                card.classList.remove('dragging');
+                const endRot = moved ? ((Math.random() - 0.5) * 6).toFixed(1) : 0;
+                card.style.transition = 'box-shadow 0.3s ease, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1)';
+                card.style.transform = 'scale(1) rotate(' + endRot + 'deg)';
+                moved = false;
+            });
+
+            card.addEventListener('pointercancel', () => {
+                dragging = false;
+                moved = false;
+                card.classList.remove('dragging');
+                card.style.transition = 'box-shadow 0.3s ease, transform 0.3s ease';
+                card.style.transform = 'scale(1) rotate(0deg)';
+            });
         });
     }
 
-    function initPolaroids() {
-        $$('.polaroid').forEach(p => {
-            p.addEventListener('click', () => p.classList.toggle('flipped'));
+    // ── Background ring parallax on scroll ──
+
+    function initBgRingScroll() {
+        if (!bgRing) return;
+        let ticking = false;
+
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    const scrollY = window.scrollY;
+                    const translateY = -(scrollY * 0.3);
+                    const translateX = Math.sin(scrollY * 0.002) * 20;
+                    bgRing.style.transform = 'translate(' + translateX + 'px, ' + translateY + 'px)';
+                    ticking = false;
+                });
+                ticking = true;
+            }
         });
     }
 
