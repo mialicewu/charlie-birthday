@@ -87,9 +87,21 @@ body::before {
 
 .lock-container { width: 100%; max-width: 600px; padding: 2rem; text-align: center; }
 
+.lock-icon {
+    font-size: 2.5rem;
+    margin-bottom: 16px;
+    animation: lockBounce 2s ease-in-out infinite;
+}
+
+@keyframes lockBounce {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-4px) rotate(-3deg); }
+    75% { transform: translateY(-4px) rotate(3deg); }
+}
+
 .lock-prompt {
     font-family: var(--font-hand);
-    font-size: 2rem;
+    font-size: 1.8rem;
     color: var(--fg);
     margin-bottom: 0.3rem;
 }
@@ -102,14 +114,12 @@ body::before {
 }
 
 .cup-wrapper { display: flex; flex-direction: column; align-items: center; margin-bottom: 2rem; position: relative; z-index: 10; }
-.cup { width: 130px; position: relative; }
+.cup { width: 140px; position: relative; }
 
-.cup-rim {
-    height: 10px;
-    background: linear-gradient(180deg, rgba(155,114,207,0.15), rgba(155,114,207,0.03));
-    border: 1.5px solid rgba(155,114,207,0.25);
-    border-bottom: none;
-    border-radius: 6px 6px 0 0;
+.cart-icon {
+    font-size: 1.6rem;
+    text-align: center;
+    margin-bottom: 4px;
 }
 
 .cup-body {
@@ -117,7 +127,7 @@ body::before {
     background: rgba(155,114,207,0.02);
     border: 1.5px dashed rgba(155,114,207,0.2);
     border-top: none;
-    border-radius: 0 0 18px 18px;
+    border-radius: 14px;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     padding: 10px;
     transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
@@ -360,8 +370,13 @@ body::before {
 .racket-svg {
     width: 140px;
     height: auto;
+    overflow: visible;
     filter: drop-shadow(0 4px 16px rgba(245,197,24,0.15));
     animation: float 4s ease-in-out infinite;
+}
+
+.racket-content svg {
+    overflow: visible;
 }
 
 .racket-text { max-width: 360px; }
