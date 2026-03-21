@@ -16,16 +16,24 @@
 <!-- ==================== LOCK SCREEN ==================== -->
 <div id="lock-screen">
     <div class="lock-container">
+        <!-- Aura blobs -->
+        <div class="lock-aura lock-aura-1"></div>
+        <div class="lock-aura lock-aura-2"></div>
+        <div class="lock-aura lock-aura-3"></div>
+
         <p class="lock-icon">🔒</p>
         <p class="lock-prompt">what's your usual order at Stardust? ☕</p>
         <p class="lock-hint">drag into the cart · or tap to add</p>
 
         <div class="cup-wrapper">
-            <div class="cup" id="cup">
-                <div class="cart-icon">🛒</div>
-                <div class="cup-body">
+            <div class="cart" id="cup">
+                <div class="cart-basket">
                     <div class="cup-contents" id="cup-contents"></div>
-                    <p class="cup-placeholder" id="cup-placeholder">drop here</p>
+                    <p class="cup-placeholder" id="cup-placeholder">🛒</p>
+                </div>
+                <div class="cart-wheels">
+                    <span class="cart-wheel"></span>
+                    <span class="cart-wheel"></span>
                 </div>
             </div>
             <button class="order-btn" id="order-btn">Order!</button>
